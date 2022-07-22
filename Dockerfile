@@ -16,6 +16,7 @@ RUN \
 		clang-10\
 		python3\
 		python3-pip\
+		wget\
     && \
     rm -rf /var/lib/apt/lists/*
 
@@ -29,7 +30,15 @@ COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN \
     chmod +x /usr/local/bin/entrypoint.sh
 
-ENV BUILD_BASE /tmp/su-exec-1000
+ENV CMAKE_VERSION v3.24.0-rc4
+
+RUN \
+	wget https://github.com/Kitware/CMake/releases/download/${CMAKE_VERSION}/cmake-${CMAKE_VERSION}.tar.gz && \
+	tar xvzf cmake-${CMAKE_VERSION}.tar.gz && \
+	cd cmake-${CMAKE_VERSION} && \
+	./bootstrap && \
+	make && \
+	make install
 
 RUN \
     git clone --branch v0.2 --depth 1 https://github.com/ncopa/su-exec.git && \
@@ -37,7 +46,6 @@ RUN \
     if [ `git rev-parse --verify HEAD` != 'f85e5bde1afef399021fbc2a99c837cf851ceafa' ]; then exit 1; fi && \
     make && \
     cp su-exec /usr/local/bin/
-
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 
 CMD ["/bin/bash", "-l"]
