@@ -1,0 +1,11 @@
+pip install conan --upgrade
+export PATH=${HOME}/.local/bin:$PATH
+conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
+
+git clone https://github.com/ezored/ezored
+
+
+
+
+
+
