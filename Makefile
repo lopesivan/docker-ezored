@@ -14,7 +14,7 @@ build:
 run:
 	docker run \
 		 -e USER=$$(id -u -n) \
-	     -e GROUP=$$(id -g -n) \
+		 -e GROUP=$$(id -g -n) \
 		 -e UID=$$(id -u) \
 		 -e GID=$$(id -g) \
 		 -e PATH=/home/$$(id -u -n)/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\
@@ -30,17 +30,21 @@ run-as-root:
 		 -w /host \
 		 --rm $(IMG)
 
-
 images:
 	docker images --format "{{.Repository}}:{{.Tag}}"| sort
+
 ls:
 	docker images --format "{{.ID}}: {{.Repository}}"
+
 size:
 	docker images --format "{{.Size}}\t: {{.Repository}}"
+
 tags:
 	docker images --format "{{.Tag}}\t: {{.Repository}}"| sort -t ':' -k2 -n
+
 net:
 	docker network ls
+
 rm-network:
 	docker network ls| awk '$$2 !~ "(bridge|host|none)" {print "docker network rm " $$1}' | sed '1d'
 
