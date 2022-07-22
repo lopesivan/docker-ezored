@@ -12,6 +12,7 @@ RUN \
     apt-get install --no-install-recommends -y \
         build-essential\
 		cmake\
+		libssl-dev\
 		git\
 		clang-10\
 		python3\

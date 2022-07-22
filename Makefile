@@ -1,6 +1,6 @@
 .PHONY: build push run share
 
-IMG:=ununtu/ezored:latest
+IMG:=ubuntu/ezored:latest
 
 build:
 	docker build -t $(IMG) .
@@ -79,3 +79,6 @@ status:
 
 info:
 	docker inspect -f '{{ index .Config.Labels "build_version" }}' $(IMG)
+
+save:
+	docker save $(IMG) | gzip > ezored_latest.tar.gz
