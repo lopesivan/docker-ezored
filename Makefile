@@ -11,6 +11,19 @@ build:
 # pull:
 # 	docker pull $(IMG)
 
+up:
+	docker run \
+		 -e USER=$$(id -u -n) \
+		 -e GROUP=$$(id -g -n) \
+		 -e UID=$$(id -u) \
+		 -e GID=$$(id -g) \
+		 -e PATH=/home/$$(id -u -n)/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\
+		 -v `pwd`/host:/home/$$(id -u -n)/host \
+		 -d \
+		 -w /home/$$(id -u -n)/host \
+		 --name ezored \
+		 $(IMG) bash
+
 run:
 	docker run \
 		 -e USER=$$(id -u -n) \
@@ -21,6 +34,7 @@ run:
 		 -v `pwd`/host:/home/$$(id -u -n)/host \
 		 -it \
 		 -w /home/$$(id -u -n)/host \
+		 --name ezored \
 		 --rm $(IMG)
 
 run-as-root:
@@ -58,6 +72,9 @@ memory:
 
 fix:
 	docker images -q --filter "dangling=true"| xargs docker rmi -f
+
+rm:
+	docker rm ezored
 
 rmi:
 	docker rmi $(IMG)
