@@ -61,3 +61,21 @@ fix:
 
 rmi:
 	docker rmi $(IMG)
+
+rmi-all:
+	@docker images --format "docker rmi {{.ID}}"
+
+rm-all:
+	docker ps -aq -f status=exited| xargs docker rm
+
+stop-all:
+	docker ps -aq -f status=running| xargs docker stop
+
+ps:
+	docker ps -a
+
+status:
+	docker stats --all --format "table {{.Name}}\t{{.CPUPerc}}\t{{.MemUsage}}"
+
+info:
+	docker inspect -f '{{ index .Config.Labels "build_version" }}' $(IMG)
