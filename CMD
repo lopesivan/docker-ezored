@@ -11,8 +11,11 @@ python make.py conan setup
 conan profile update settings.compiler.libcxx=libstdc++11 default
 python make.py gluecode setup
 
-
-
+cd host/
+git clone https://github.com/ezored/ezored
+cd ezored
+python make.py target linux prepare
+python make.py target linux build
 
 
 
