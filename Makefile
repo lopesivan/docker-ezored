@@ -1,6 +1,7 @@
 .PHONY: build push run share
 
-IMG:=ubuntu/ezored:latest
+CONTAINER_NAME := ezored
+IMG            := ubuntu/ezored:latest
 
 build:
 	docker build -t $(IMG) .
@@ -21,7 +22,7 @@ up:
 		 -v `pwd`/host:/home/$$(id -u -n)/host \
 		 -d \
 		 -w /home/$$(id -u -n)/host \
-		 --name ezored \
+		 --name $(CONTAINER_NAME) \
 		 $(IMG) bash
 
 run:
@@ -34,7 +35,7 @@ run:
 		 -v `pwd`/host:/home/$$(id -u -n)/host \
 		 -it \
 		 -w /home/$$(id -u -n)/host \
-		 --name ezored \
+		 --name $(CONTAINER_NAME) \
 		 --rm $(IMG)
 
 run-as-root:
@@ -74,7 +75,7 @@ fix:
 	docker images -q --filter "dangling=true"| xargs docker rmi -f
 
 rm:
-	docker rm ezored
+	docker rm $(CONTAINER_NAME)
 
 rmi:
 	docker rmi $(IMG)
@@ -98,10 +99,10 @@ info:
 	docker inspect -f '{{ index .Config.Labels "build_version" }}' $(IMG)
 
 save:
-	docker save $(IMG) | gzip > ezored_latest.tar.gz
+	docker save $(IMG) | gzip > $(CONTAINER_NAME)_latest.tar.gz
 
 scp:
-	scp dev:backup/ezored_latest.tar.gz .
+	scp dev:backup/$(CONTAINER_NAME)_latest.tar.gz .
 
-install:ezored_latest.tar.gz
-	docker load < ezored_latest.tar.gz
+load:$(CONTAINER_NAME)_latest.tar.gz
+	docker load < $(CONTAINER_NAME)_latest.tar.gz
