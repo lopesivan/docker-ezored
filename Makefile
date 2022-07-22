@@ -99,3 +99,9 @@ info:
 
 save:
 	docker save $(IMG) | gzip > ezored_latest.tar.gz
+
+scp:
+	scp dev:backup/ezored_latest.tar.gz .
+
+install:ezored_latest.tar.gz
+	docker load < ezored_latest.tar.gz
