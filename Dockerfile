@@ -30,10 +30,10 @@ COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN \
     chmod +x /usr/local/bin/entrypoint.sh
 
-ENV CMAKE_VERSION v3.24.0-rc4
+ENV CMAKE_VERSION 3.24.0-rc4
 
 RUN \
-	wget https://github.com/Kitware/CMake/releases/download/${CMAKE_VERSION}/cmake-${CMAKE_VERSION}.tar.gz && \
+	wget https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSION}/cmake-${CMAKE_VERSION}.tar.gz && \
 	tar xvzf cmake-${CMAKE_VERSION}.tar.gz && \
 	cd cmake-${CMAKE_VERSION} && \
 	./bootstrap && \
