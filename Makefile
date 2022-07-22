@@ -17,7 +17,7 @@ run:
 	     -e GROUP=$$(id -g -n) \
 		 -e UID=$$(id -u) \
 		 -e GID=$$(id -g) \
-		 -e PATH=$$(id -u -n)/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\
+		 -e PATH=/home/$$(id -u -n)/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\
 		 -v `pwd`/host:/home/$$(id -u -n)/host \
 		 -it \
 		 -w /home/$$(id -u -n)/host \
